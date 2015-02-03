@@ -78,6 +78,7 @@ class ArrayCacheMemoryMgr(threading.Thread):
     loggingName = __name__ + ".ArrayCacheMemoryMgr"
     logger = logging.getLogger(loggingName)
     traceLogger = logging.getLogger("TRACE." + loggingName)
+    traceLogger.setLevel(logging.DEBUG)
 
     def __init__(self):
         threading.Thread.__init__(self)

@@ -19,11 +19,17 @@
 # This information is also available on the ilastik web site at:
 #		   http://ilastik.org/license/
 ###############################################################################
+import io
+import warnings
+
 try:
     import faulthandler
     faulthandler.enable()
-except ImportError:
-    pass
+except ImportError as e:
+    warnings.warn(e.args[0], Warning)
+except io.UnsupportedOperation as e:
+    faulthandler.disable()
+    warnings.warn(e.args[0], Warning)
 
 import os
 this_file = os.path.abspath(__file__)
