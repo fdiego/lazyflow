@@ -70,7 +70,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((3, 100, 200, 150, 2), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -95,7 +95,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testBasic3d(self):
@@ -128,7 +129,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((100, 200, 150), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -153,7 +154,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testBasic4d_txyc(self):
@@ -186,7 +188,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((3, 200, 150, 2), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -211,7 +213,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testBasic2d(self):
@@ -244,7 +247,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((200, 150), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -269,7 +272,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testBasicOneBlock(self):
@@ -302,7 +306,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((3, 100, 200, 150, 2), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -327,7 +331,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testMultiThread(self):
@@ -374,7 +379,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((3, 100, 200, 150, 2), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -413,7 +418,8 @@ class TestOpCompressedCache( object ):
         for i, data in results.items():
             assert (data == expectedData).all() and \
                    (data.mask == expectedData.mask).all() and \
-                   (data.fill_value == expectedData.fill_value).all(),\
+                   ((data.fill_value == expectedData.fill_value) |
+                    (numpy.isnan(data.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
                 "Incorrect output for index {}".format( i )
 
     def testSetInSlot(self):
@@ -450,7 +456,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((100, 200, 150), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -468,7 +474,7 @@ class TestOpCompressedCache( object ):
 
         slicing = numpy.s_[ 0:100, 0:75, 0:50 ]
         expectedData = numpy.ma.ones( slicing2shape(slicing), dtype=int )
-        expectedData.set_fill_value(expectedData.dtype.type(expectedData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         expectedData[0] = numpy.ma.masked
 
         # This is what we're testing.
@@ -481,7 +487,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testReconnectWithoutRequest(self):
@@ -511,7 +518,7 @@ class TestOpCompressedCache( object ):
 
     def testReconnectWithoutRequest_masked(self):
         vol = numpy.ma.zeros((200, 100, 50), dtype=numpy.float32)
-        vol.set_fill_value(vol.dtype.type(vol.fill_value))
+        vol.set_fill_value(numpy.float32(numpy.nan))
         vol[0] = numpy.ma.masked
         vol1 = vol
         vol2 = vol1.T
@@ -529,7 +536,8 @@ class TestOpCompressedCache( object ):
 
         assert (out == vol).all() and \
                (out.mask == vol.mask).all() and \
-               (out.fill_value == vol.fill_value).all(),\
+               ((out.fill_value == vol.fill_value) |
+                (numpy.isnan(out.fill_value) & numpy.isnan(vol.fill_value))).all(),\
             "Incorrect output!"
 
         op.BlockShape.setValue((50, 100, 10))
@@ -541,7 +549,8 @@ class TestOpCompressedCache( object ):
 
         assert (out == vol).all() and \
                (out.mask == vol.mask).all() and \
-               (out.fill_value == vol.fill_value).all(),\
+               ((out.fill_value == vol.fill_value) |
+                (numpy.isnan(out.fill_value) & numpy.isnan(vol.fill_value))).all(),\
             "Incorrect output!"
 
     def testChangeBlockshape(self):
@@ -590,7 +599,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((100, 200, 150), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -615,7 +624,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
         # Now change the blockshape and the input and try again...
@@ -635,7 +645,8 @@ class TestOpCompressedCache( object ):
         #logger.debug("Checking data...")
         assert (readData == expectedData).all() and \
                (readData.mask == expectedData.mask).all() and \
-               (readData.fill_value == expectedData.fill_value).all(),\
+               ((readData.fill_value == expectedData.fill_value) |
+                (numpy.isnan(readData.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
             "Incorrect output!"
 
     def testHDF5(self):
@@ -697,7 +708,7 @@ class TestOpCompressedCache( object ):
         logger.info("Generating sample data...")
         sampleData = numpy.indices((150, 250, 150), dtype=numpy.float32).sum(0)
         sampleData = sampleData.view( numpy.ma.masked_array )
-        sampleData.set_fill_value(sampleData.dtype.type(sampleData.fill_value))
+        sampleData.set_fill_value(numpy.float32(numpy.nan))
         sampleData[0] = numpy.ma.masked
 
         graph = Graph()
@@ -731,7 +742,8 @@ class TestOpCompressedCache( object ):
 
                 assert (h5_file[slicing_str]["data"][()] == expectedData).all() and \
                        (h5_file[slicing_str]["mask"][()] == expectedData.mask).all() and \
-                       (h5_file[slicing_str]["fill_value"][()] == expectedData.fill_value).all(),\
+                       ((h5_file[slicing_str]["fill_value"][()] == expectedData.fill_value) |
+                        (numpy.isnan(h5_file[slicing_str]["fill_value"][()]) & numpy.isnan(expectedData.fill_value))).all(),\
                     "Incorrect output!"
 
             with h5py.File(os.path.join(tempdir, "data.h5"), "r") as h5_file:
@@ -756,7 +768,8 @@ class TestOpCompressedCache( object ):
 
                 assert (result == expectedData).all() and \
                        (result.mask == expectedData.mask).all() and \
-                       (result.fill_value == expectedData.fill_value).all(),\
+                       ((result.fill_value == expectedData.fill_value) |
+                        (numpy.isnan(result.fill_value) & numpy.isnan(expectedData.fill_value))).all(),\
                     "Incorrect output!"
         finally:
             shutil.rmtree(tempdir)
