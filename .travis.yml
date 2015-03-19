@@ -13,6 +13,7 @@ install:
    - ls
    # Replace the src in the prebuilt binary with the one TravisCI cloned for us.
    - rm -rf nanshe-package.tgz
+   - mv nanshe-package/src/ilastik/lazyflow/lazyflow/drtile/drtile.so $TRAVIS_REPO_SLUG/lazyflow/drtile/drtile.so
    - rm -rf nanshe-package/src/ilastik/lazyflow
    - mv $TRAVIS_REPO_SLUG nanshe-package/src/ilastik/lazyflow
    # Won't recognize setup.cfg unless we are in the source directory.
